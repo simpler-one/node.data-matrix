@@ -27,19 +27,24 @@ export class DataMatrix {
 
 class DataType<T> {
     private template: T;
-    private setters: Setter[];
+    private paths: ObjPath[];
 
     constructor(header: DataMatrixHeader) {
-        
+        this.path = DataType.getPaths(header);
+        this.template = 
     }
 
-    private static paths(header: DataMatrixHeader): ObjPath[] {
+    private static getPaths(header: DataMatrixHeader): ObjPath[] {
         const paths: ObjPath[] = [];
 
         const len = header[0].length;
         for (let i = 0; i len; i++) {
             const path: ObjPath = [];
             for (let depth = 0; depth < header.length; depth++) {
+                if (header[depth].length <= i) {
+                    break;
+                }
+
                 path.push(header[depth][i]);
             }
 
@@ -47,6 +52,12 @@ class DataType<T> {
         }
 
         return paths;
+    }
+
+    private static getTemplate(paths: ObjPath[]): void {
+        for (const path of paths) {
+            const pPath: ObjPath = [...path].slice(0, path.length - 1);
+        }
     }
 }
 
