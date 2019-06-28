@@ -1,8 +1,8 @@
-import { DataMatrixHeader, DataMatrixRowGroup } from './interfaces';
+import { DataMatrixHeader, DataGroup } from './interfaces';
 
 
 export class DataMatrix {
-    static build<T>(headers: DataMatrixHeader, ...groups: DataMatrixRowGroup[]): T[] {
+    static build<T>(headers: DataMatrixHeader, ...groups: DataGroup[]): T[] {
 
     }
 
