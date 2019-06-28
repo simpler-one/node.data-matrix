@@ -1,10 +1,11 @@
 # dist/ : necessary
 samples/
 spec/
+src/
 .gitignore
 .travis.yml
 
-#--------------------
+#---------------
 
 # Logs
 logs
