@@ -15,7 +15,7 @@ export class DataMatrix {
 
     private constructor(
         headers: DataMatrixHeader, 
-        groups: DataMatrixRowGroup[]
+        groups: DataGroup[]
     ) {
         this.type = new DataType(headers);
     }
