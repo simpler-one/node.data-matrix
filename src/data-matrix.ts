@@ -14,7 +14,7 @@ export class DataMatrix {
 
 
     private constructor(
-        headers: DataMatrixHeader, 
+        header: DataMatrixHeader, 
         groups: DataGroup[]
     ) {
         this.type = new DataType(headers);
@@ -25,11 +25,19 @@ export class DataMatrix {
 
 
 class DataType<T> {
-    private readonly template: T;
-    private readonly setters: Setter[];
+    private template: T;
+    private setters: Setter[];
 
-    constructor(headers: DataMatrixHeader) {
+    constructor(header: DataMatrixHeader) {
         
+    }
+
+    private build(header: DataMatrixHeader) {
+        const len = header[0].length;
+        for (let i = 0; i len; i++) {
+            for (let depth = 0; depth < header.length; depth++) {
+            }
+        }
     }
 }
 
