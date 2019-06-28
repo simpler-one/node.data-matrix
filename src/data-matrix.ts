@@ -55,8 +55,12 @@ class DataType<T> {
     }
 
     private static getTemplate(paths: ObjPath[]): void {
+        const template: T = {} as undefined; 
         for (const path of paths) {
-            const pPath: ObjPath = [...path].slice(0, path.length - 1);
+            const pPath: ObjPath = path.slice(0, path.length - 1);
+            for (const key of pPath) {
+                
+            }
         }
     }
 }
