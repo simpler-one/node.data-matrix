@@ -1,7 +1,7 @@
-export type DataMatrixHeader = DataMatrixHeaderLayer[];
-type DataMatrixHeaderLayer = DataMatrixHeaderItem[];
-type DataMatrixHeaderItem = string | string[];
+export type DataMatrixHeader = HeaderLayer[];
+type HeaderLayer = HeaderElement[];
+type HeaderElement = string | string[];
 
-export type DataMatrixRowGroup = DataMatrixRow[];
-type DataMatrixRow = DataMatrixItem[];
-type DataMatrixItem = {};
+export type DataGroup = DataUnit[];
+type DataUnit = DataElement[];
+type DataElement = {};
