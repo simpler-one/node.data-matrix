@@ -11,25 +11,25 @@ Let's be lazy.
         <th>Write all<br>(Before)</th>
         <td>
 <pre>
-it('should ...', () => {
-    obj.val = false;
-    const reuslt = obj.doSomething(1, true, 'user');
-    expect(result).toBe(true);
+it('[morning] boy (max): discount 50%', () => {
+    const service = new FooService();
+    const discount = service.calcDiscount('morning', true, 10);
+    expect(discount).toEqual(-0.5);
 });
-it('should ...', () => {
-    obj.val = false;
-    const reuslt = doSomething(1, true, 'system');
-    expect(result).toBe(true);
+it('[morning] boy (above): no discount', () => {
+    const service = new FooService();
+    const discount = service.calcDiscount('morning', true, 11);
+    expect(discount).toEqual(0.0);
 });
-it('should ...', () => {
-    obj.val = false;
-    const reuslt = doSomething(1, false, 'user');
-    expect(result).toBe(true);
+it('[morning] senior man (under): no discount', () => {
+    const service = new FooService();
+    const discount = service.calcDiscount('morning', true, 64);
+    expect(discount).toEqual(0.0);
 });
-it('should ...', () => {
-    obj.val = false;
-    const reuslt = doSomething(1, false, 'system');
-    expect(result).toBe(true);
+it('[morning] senior man (min): discount 50%', () => {
+    const service = new FooService();
+    const discount = service.calcDiscount('morning', true, 65);
+    expect(discount).toEqual(-0.5);
 });
 ...
 </pre>
@@ -40,17 +40,17 @@ it('should ...', () => {
         <td>
 <pre>
 const tests = [
-    { val: false, type: 1, strict: true, user: 'user', expect: true, label: 'should ...' },
-    { val: false, type: 1, strict: true, user: 'system', expect: true, label: 'should ...' },
-    { val: false, type: 1, strict: false, user: 'user', expect: true, label: 'should ...' },
-    { val: false, type: 1, strict: false, user: 'system', expect: true, label: 'should ...' },
+    { time: 'morning', isMale: true, age: 10, expect: -0.5, label: '[morning] boy (max): discount 50%' },
+    { time: 'morning', isMale: true, age: 11, expect: 0.0, label: '[morning] boy (above): no discount' },
+    { time: 'morning', isMale: true, age: 64, expect: 0.0, label: '[morning] senior man (under): no discount' },
+    { time: 'morning', isMale: true, age: 65, expect: -0.5, label: '[morning] senior man (min): discount 50%' },
     ...
 ];
 for (const test of tests) {
     it(test.label, () => {
-        obj.val = false;
-        const reuslt = obj.doSomething(test.type, test.strict, test.user);
-        expect(result).toBe(test.expect);
+        const service = new FooService();
+        const discount = service.calcDiscount(test.time, test.isMale, test.age);
+        expect(discount).toEqual(test.expected);
     });
 }
 </pre>
@@ -61,19 +61,21 @@ for (const test of tests) {
         <td>
 <pre>
 const tests = buildDataMatrix([
-    [val,   type,   strict,     user,       expect,     label]
-], [
-    [false, 1,      true,       'user',     true,       'should ...'],
-    [                           'system',   true,       'should ...'],
-    [               false,      'user',     true,       'should ...'],
-    [                           'system',   true,       'should ...'],
+    [
+        ['time',        'isMale',   'age',  'expect',   'label']
+    ], [//-------------------------------------------------------
+        ['morning',     true,       10,     -0.5,       '[morning] boy (max): discount 50%'],
+        [                           11,     0.0,        '[morning] boy (above): no discount'],
+        [                           64,     0.0,        '[morning] senior man (under): no discount'],
+        [                           65,     -0.5,       '[morning] senior man (min): discount 50%'],
     ...
+    ]
 ])
 for (const test of tests) {
     it(test.label, () => {
-        obj.val = false;
-        const reuslt = obj.doSomething(test.type, test.strict, test.user);
-        expect(result).toBe(test.expect);
+        const service = new FooService();
+        const discount = service.calcDiscount(test.time, test.isMale, test.age);
+        expect(discount).toEqual(test.expected);
     });
 }
 </pre>
