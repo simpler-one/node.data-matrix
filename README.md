@@ -26,11 +26,6 @@ it('[morning] senior man (under): no discount', () => {
     const discount = service.calcDiscount('morning', true, 64);
     expect(discount).toEqual(0.0);
 });
-it('[morning] senior man (min): discount 50%', () => {
-    const service = new FooService();
-    const discount = service.calcDiscount('morning', true, 65);
-    expect(discount).toEqual(-0.5);
-});
 ...
 </pre>
         </td>
@@ -43,7 +38,6 @@ const tests = [
     { time: 'morning', isMale: true, age: 10, expect: -0.5, label: '[morning] boy (max): discount 50%' },
     { time: 'morning', isMale: true, age: 11, expect: 0.0, label: '[morning] boy (above): no discount' },
     { time: 'morning', isMale: true, age: 64, expect: 0.0, label: '[morning] senior man (under): no discount' },
-    { time: 'morning', isMale: true, age: 65, expect: -0.5, label: '[morning] senior man (min): discount 50%' },
     ...
 ];
 for (const test of tests) {
@@ -67,7 +61,6 @@ const tests = buildDataMatrix([
         ['morning',     true,       10,     -0.5,       '[morning] boy (max): discount 50%'],
         [                           11,     0.0,        '[morning] boy (above): no discount'],
         [                           64,     0.0,        '[morning] senior man (under): no discount'],
-        [                           65,     -0.5,       '[morning] senior man (min): discount 50%'],
     ...
     ]
 ])
