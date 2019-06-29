@@ -126,16 +126,17 @@ for (const test of tests) {
 }
 ```
 
-## Other samples
- I have a truly marvelous sample of this case which this margin is too narrow to contain.
+## 他のサンプル
+ 真に驚くべきサンプルがあるが、ここに書くには余白が狭すぎる
  [See samples](samples)
 
 ## Schedule
-- Crate docs: someday
-- Rest: every day
-- Sleep: every day
-- Be clever and lazy: soon
-- Be stupid and diligent: never
+- ドキュメントの充実: 明日やる
+- VS Code向けマトリックス整形Extensionの提供: 明日やる
+- 休憩: 毎日
+- おふとん: 毎日
+- 有能な怠け者になる: もうすぐ
+- 無能な働き者になる: 一昨日
 
-## If you aren't satisfied
+## ご満足いただけなかった場合
  contact: koba.work.work1127@gmail.com

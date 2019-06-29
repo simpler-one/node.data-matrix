@@ -133,6 +133,7 @@ for (const test of tests) {
 
 ## Schedule
 - Crate docs: someday
+- Matrix formatting extension for VS Code: someday
 - Rest: every day
 - Sleep: every day
 - Be clever and lazy: soon
