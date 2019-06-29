@@ -10,6 +10,8 @@ Let's be lazy.
     <tr>
         <th>Write all<br>(Before)</th>
         <td>
+            <div>
+                Too long and duplicated
 <pre>
 it('[morning] boy (max): discount 50%', () => {
     const service = new FooService();
@@ -28,50 +30,49 @@ it('[morning] senior man (under): no discount', () => {
 });
 ...
 </pre>
+</div>
         </td>
     </tr>
     <tr>
-        <th>Test case list<br>(Before)</th>
+        <th>List<br>(Before)</th>
         <td>
+            <div>
+                Still duplicated
 <pre>
 const tests = [
-    { time: 'morning', isMale: true, age: 10, expect: -0.5, label: '[morning] boy (max): discount 50%' },
-    { time: 'morning', isMale: true, age: 11, expect: 0.0, label: '[morning] boy (above): no discount' },
-    { time: 'morning', isMale: true, age: 64, expect: 0.0, label: '[morning] senior man (under): no discount' },
+    { time: 'morning', isMale: true, age: 10, expect: -0.5, label: '[morning] boy ...' },
+    { time: 'morning', isMale: true, age: 11, expect: 0.0, label: '[morning] boy ...' },
+    { time: 'morning', isMale: true, age: 64, expect: 0.0, label: '[morning] senior ...' },
     ...
 ];
 for (const test of tests) {
     it(test.label, () => {
-        const service = new FooService();
-        const discount = service.calcDiscount(test.time, test.isMale, test.age);
-        expect(discount).toEqual(test.expected);
-    });
-}
+        ...
 </pre>
+            </div>
         </td>
     </tr>
     <tr>
         <th>Data matrix<br>(After)</th>
         <td>
+            <div>
+                Readable and no duplication
 <pre>
 const tests = buildDataMatrix([
     [
         ['time',        'isMale',   'age',  'expect',   'label']
     ], [//-------------------------------------------------------
-        ['morning',     true,       10,     -0.5,       '[morning] boy (max): discount 50%'],
-        [                           11,     0.0,        '[morning] boy (above): no discount'],
-        [                           64,     0.0,        '[morning] senior man (under): no discount'],
+        ['morning',     true,       10,     -0.5,       '[morning] boy ...'],
+        [                           11,     0.0,        '[morning] boy ...'],
+        [                           64,     0.0,        '[morning] senior ...'],
     ...
     ]
 ])
 for (const test of tests) {
     it(test.label, () => {
-        const service = new FooService();
-        const discount = service.calcDiscount(test.time, test.isMale, test.age);
-        expect(discount).toEqual(test.expected);
-    });
-}
+        ...
 </pre>
+            </div>
         </td>
     </tr>
 </table>
@@ -84,3 +85,17 @@ for (const test of tests) {
 - Readable: less code helps you to understand test cases and find mistake
 
 ## Quick start
+```js
+
+```
+
+## Schedule
+- Crate docs: someday
+- Rest: every day
+- Sleep: every day
+- Be clever and lazy: soon
+- Be stupid and diligent: never
+
+
+## If you aren't satisfied
+ contact: koba.work.work1127@gmail.com
