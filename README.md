@@ -80,7 +80,7 @@ for (const test of tests) {
 </table>
 
 ## What? 
- Data matrix cretor for JavaScript and TypeScript.
+ Data list creator for JavaScript and TypeScript.
 
 ## Why? 
 - Less code: you don't have to write lengthy code any more for unit test
