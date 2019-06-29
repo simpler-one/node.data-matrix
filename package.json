@@ -1,6 +1,6 @@
 {
   "name": "@working-sloth/data-matrix",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "Data matrix for NodeJS",
   "main": "dist/index.js",
   "scripts": {

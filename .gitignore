@@ -1,3 +1,4 @@
+# .config/ : necessary
 dist/
 # samples/ : necessary
 spec/built/
