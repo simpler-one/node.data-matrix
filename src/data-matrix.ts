@@ -1,78 +1,54 @@
-import { DataMatrixHeader, DataGroup } from './interfaces';
-
-type ObjPath = string[];
-
-export class DataMatrix<T> {
-    static build<T>(headers: DataMatrixHeader, ...groups: DataGroup[]): T[] {
-
-    }
-
-    private template: T;
-
-    private type: DataType<T>;
-
-    private accessor;
+import { DataMatrixHeader, DataGroup, DataUnit } from './interfaces';
+import { DataType } from './data-type';
+import { MetaValue } from './meta-value';
 
 
-    private constructor(
-        header: DataMatrixHeader, 
-        groups: DataGroup[]
-    ) {
-        this.type = new DataType(header);
-    }
-}
-
-
-class DataType<T> {
-    private template: T;
-    private paths: ObjPath[];
-
+export function buildDataMatrix<T>(header: DataMatrixHeader, ...groups: DataGroup[]): T[] {
+    const type = new DataType<T>(header);
+    const models = fill(groups);
+    const result: T[] = [];
     
-    private static getPaths(header: DataMatrixHeader): ObjPath[] {
-        const paths: ObjPath[] = [];
-
-        for (let i = 0; i < header[0].length; i++) {
-            this.setPath(header, i, 0, [], paths);
+    for (const model of models) {
+        const data = type.getTemplate();
+        for (let i = 0; i < model.length; i++) {
+            type.set(data, i, model[i]);
         }
 
-        return paths;
+        result.push(data);
     }
 
-    private static setPath(header: DataMatrixHeader, i: number, depth: number, path: ObjPath, paths: ObjPath[]): void {
-        if (depth >= header.length || header[depth].length <= i) {
-            paths.push(path); // End
-            return;
-        }
-
-        const item = header[depth][i];
-        if (typeof item === 'string') {
-            path.push(item);
-            this.setPath(header, i, depth + 1, path, paths); // Recursive
-        } else {
-            for (const key of item) {
-                const newPath = [...path, key];
-                this.setPath(header, i, depth + 1, newPath, paths); // Recursive
-            }
-        }
-    }
-
-    private static getTemplate<T>(paths: ObjPath[]): T {
-        const template: T = {} as undefined; 
-        for (const path of paths) {
-            const pPath: ObjPath = path.slice(0, path.length - 1);
-            for (const key of pPath) {
-                
-            }
-        }
-
-        return template;
-    }
-
-    constructor(header: DataMatrixHeader) {
-        this.paths = DataType.getPaths(header);
-        this.template = DataType.getTemplate<T>(this.paths);
-    }
-
+    return result;
 }
 
+function fill(groups: DataGroup[]): DataUnit[] {
+    if (groups.length === 0 || groups[0].length === 0) return [];
+    const result: DataUnit[] = [];
 
+    let firstOfAll: DataUnit = groups[0][0];
+    let prev: DataUnit = new Array(firstOfAll.length);
+    let dataLen = firstOfAll.length;
+    for (const group of groups) {
+        if (group.length === 0) continue;
+
+        let firstInGroup = group[0];
+        for (const data of group) {
+            const cur: DataUnit = [...data];
+            const short = dataLen - data.length;
+            for (let i = 0; i < short; i++) {
+                cur[i] = prev[i]; // Fill empty with prev
+            }
+
+            for (let i = short; i < dataLen; i++) {
+                const val = cur[i];
+                if (val instanceof MetaValue) {
+                    cur[i] = val.select({firstOfAll, firstInGroup, previous: prev }); // Fill meta value
+                }
+            }
+
+            prev = cur;
+            result.push(cur);
+        }
+    }
+
+    return result;
+}
