@@ -1,5 +1,4 @@
-import { buildDataMatrix, $0, $00 } from "../../src";
-// import { buildDataMatrix, $0, $00 } from '@working-sloth/data-matrix';
+import { buildDataMatrix, $0, $00 } from '@working-sloth/data-matrix';
 
 type Test = { from: string, to: string; type: string, weight: number, expect: number, label: string };
 const tests = buildDataMatrix<Test>(

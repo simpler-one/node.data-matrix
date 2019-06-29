@@ -1,5 +1,4 @@
-import { buildDataMatrix } from "../../src";
-// import { buildDataMatrix } from '@working-sloth/data-matrix';
+import { buildDataMatrix } from '@working-sloth/data-matrix';
 
 
 type Test = {
@@ -11,6 +10,7 @@ type Test = {
 };
 const tests = buildDataMatrix<Test>(
     [
+        // You can create nested object by stacking header layer
         ['mode',    'door',             'user',             'expect',   'label'],
         [[],        ['area','security'],['area','permission'        ]]
     ], [//------------------------------------------------------------------------
