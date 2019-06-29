@@ -1,5 +1,6 @@
 # Data Matrix
 
+[![npm version](https://badge.fury.io/js/%40working-sloth%2Fdata-matrix.svg)](https://badge.fury.io/js/%40working-sloth%2Fdata-matrix)
 [![Build Status](https://travis-ci.org/work-work-komei/node.data-matrix.svg?branch=develop)](https://travis-ci.org/work-work-komei/node.data-matrix)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/74961d74343647b7aef1e261757d2b5c)](https://app.codacy.com/app/work-work-komei/node.data-matrix?utm_source=github.com&utm_medium=referral&utm_content=work-work-komei/node.data-matrix&utm_campaign=Badge_Grade_Dashboard)
 [![codecov](https://codecov.io/gh/work-work-komei/node.data-matrix/branch/develop/graph/badge.svg)](https://codecov.io/gh/work-work-komei/node.data-matrix)
