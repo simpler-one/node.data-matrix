@@ -7,8 +7,9 @@
 
 ![DataMatrix](samples/1.quick-start/data-matrix.png)
 
-Diligent developer, is it your work to crete many lengthy code for unit tests?
-Let's be lazy.
+日々怠ける処の開発者、日没すれども帰れぬ処の社畜開発者に致す。
+UTのために長くて冗長なコードをたくさん生産することがあなたの仕事ですか？
+怠けましょう
 <table>
     <tr>
         <th>Write all<br>(Before)</th>
@@ -80,13 +81,13 @@ for (const test of tests) {
     </tr>
 </table>
 
-## What? 
- Data list creator for JavaScript and TypeScript.
+## 概要
+ JavaScriptとTypeScript用のデータリスト作成ツールです
 
-## Why? 
-- Less code: you don't have to write lengthy code any more for unit test
-- Readable: less code helps you to understand test cases and find mistake
-- Learning cost: basic takes only 1 step, full function takes 4 only steps to learn
+## 特徴
+- コードを少なく: you don't have to write lengthy code any more for unit test
+- Readable: コードを少なく helps you to understand test cases and find mistake
+- でも学習コストがお高いんでしょ？: 基本機能は１ステップ、全機能は４ステップのみで習得できます
 
 ## Quick start
 ```js
