@@ -1,17 +1,19 @@
-import { buildDataMatrix } from "../../src";
-// import { buildDataMatrix } from '@working-sloth/data-matrix';
+import { buildDataMatrix } from '@working-sloth/data-matrix';
 
+// define test param
 type Test = { time: string, isMale: boolean; age: number, expect: number, label: string };
+// buildDataMatrix<T> convert the matrix to test list
 const tests = buildDataMatrix<Test>(
     [
-        ['time',        'isMale',   'age',  'expect',   'label']
+        ['time',        'isMale',   'age',  'expect',   'label'] // Header
     ], [//-------------------------------------------------------
+        // Lacking values will be filled from LEFT to RIGHT
         ['morning',     true,       10,     -0.5,       '[morning] boy (max): discount 50%'],
-        [                           11,     0.0,        '[morning] boy (above): no discount'],
+        [/*morning*/    /*true*/    11,     0.0,        '[morning] boy (above): no discount'],
         [                           64,     0.0,        '[morning] senior man (under): no discount'],
         [                           65,     -0.5,       '[morning] senior man (min): discount 50%'],
         [               false,      10,     -0.5,       '[morning] girl (max): discount 50%'],
-        [                           11,     0.0,        '[morning] girl (above): no discount'],
+        [               /*false*/   11,     0.0,        '[morning] girl (above): no discount'],
         [                           64,     0.0,        '[morning] senior woman (under): no discount'],
         [                           65,     -0.5,       '[morning] senior woman (min): discount 50%'],
         ['afternoon',   true,       10,     -0.5,       '[afternoon] boy (max): discount 50%'],
@@ -33,6 +35,7 @@ const tests = buildDataMatrix<Test>(
     ]
 );
 
+// Test loop
 for (const test of tests) {
     it(test.label, () => {
         // Given

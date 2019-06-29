@@ -86,8 +86,44 @@ for (const test of tests) {
 
 ## Quick start
 ```js
+import { buildDataMatrix } from '@working-sloth/data-matrix';
 
+// define test param
+type Test = { time: string, isMale: boolean; age: number, expect: number, label: string };
+// buildDataMatrix<T> convert the matrix to test list
+const tests = buildDataMatrix<Test>(
+    [
+        ['time',        'isMale',   'age',  'expect',   'label'] // Header
+    ], [//-------------------------------------------------------
+        // Lacking values will be filled from LEFT to RIGHT with previous value
+        ['morning',     true,       10,     -0.5,       '[morning] boy (max): discount 50%'],
+        [/*morning*/    /*true*/    11,     0.0,        '[morning] boy (above): no discount'],
+        [                           64,     0.0,        '[morning] senior man (under): no discount'],
+        [                           65,     -0.5,       '[morning] senior man (min): discount 50%'],
+        [               false,      10,     -0.5,       '[morning] girl (max): discount 50%'],
+        [               /*false*/   11,     0.0,        '[morning] girl (above): no discount'],
+        ...
+    ]
+);
+
+// Test loop
+for (const test of tests) {
+    it(test.label, () => {
+        // Given
+        const service = new FooService();
+
+        // When
+        const discount = service.calcDiscount(test.time, test.isMale, test.age);
+
+        // Then
+        expect(discount).toEqual(test.expect);
+    });
+}
 ```
+
+## Other samples
+ I have a truly marvelous sample of this case which this margin is too narrow to contain.
+ [See samples](samples)
 
 ## Schedule
 - Crate docs: someday
