@@ -36,13 +36,13 @@ export function buildDataMatrix<T>(header: DataMatrixHeader, ...groups: DataGrou
 function fill(groups: DataGroup[]): DataUnit[] {
     const result: DataUnit[] = [];
 
-    let firstOfAll: DataUnit = groups[0][0];
+    const firstOfAll: DataUnit = groups[0][0];
     let prev: DataUnit = new Array(firstOfAll.length);
-    let dataLen = firstOfAll.length;
+    const dataLen = firstOfAll.length;
     for (const group of groups) {
         if (group.length === 0) continue;
 
-        let firstInGroup = group[0];
+        const firstInGroup = group[0];
         for (const data of group) {
             const short = dataLen - data.length;
             const cur: DataUnit = [...new Array(short), ...data];

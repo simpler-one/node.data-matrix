@@ -5,6 +5,21 @@ type ObjPath = string[];
 
 export class DataType<T> {
 
+    public get size(): number {
+        return this.paths.length;
+    }
+
+    /** template JSON string */
+    private template: string;
+    private paths: ObjPath[];
+
+
+    public constructor(header: DataMatrixHeader) {
+        this.paths = DataType.getPaths(header);
+        this.template = JSON.stringify(DataType.getTemplate<T>(this.paths));
+    }
+
+
     private static getPaths(header: DataMatrixHeader): ObjPath[] {
         const paths: ObjPath[] = [];
 
@@ -57,21 +72,6 @@ export class DataType<T> {
     }
 
 
-    public get size(): number {
-        return this.paths.length;
-    }
-
-    /** template JSON string */
-    private template: string;
-    private paths: ObjPath[];
-
-
-    public constructor(header: DataMatrixHeader) {
-        this.paths = DataType.getPaths(header);
-        this.template = JSON.stringify(DataType.getTemplate<T>(this.paths));
-    }
-
-    
     public set(obj: T, i: number, value: {}): void {
         const path = this.paths[i];
         const pPath: ObjPath = path.slice(0, path.length - 1);
