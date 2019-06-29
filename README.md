@@ -1,5 +1,7 @@
 # Data Matrix
 
+[![Build Status](https://travis-ci.org/work-work-komei/node.data-matrix.svg?branch=develop)](https://travis-ci.org/work-work-komei/node.data-matrix)
+[![codecov](https://codecov.io/gh/work-work-komei/node.data-matrix/branch/develop/graph/badge.svg)](https://codecov.io/gh/work-work-komei/node.data-matrix)
 [![MIT License](http://img.shields.io/badge/license-MIT-blue.svg?style=flat)](LICENSE)
 
 ![DataMatrix](samples/1.quick-start/data-matrix.png)
