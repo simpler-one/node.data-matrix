@@ -1,5 +1,6 @@
 # Data Matrix
 
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/74961d74343647b7aef1e261757d2b5c)](https://app.codacy.com/app/work-work-komei/node.data-matrix?utm_source=github.com&utm_medium=referral&utm_content=work-work-komei/node.data-matrix&utm_campaign=Badge_Grade_Dashboard)
 [![Build Status](https://travis-ci.org/work-work-komei/node.data-matrix.svg?branch=develop)](https://travis-ci.org/work-work-komei/node.data-matrix)
 [![codecov](https://codecov.io/gh/work-work-komei/node.data-matrix/branch/develop/graph/badge.svg)](https://codecov.io/gh/work-work-komei/node.data-matrix)
 [![MIT License](http://img.shields.io/badge/license-MIT-blue.svg?style=flat)](LICENSE)
