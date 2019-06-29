@@ -1,9 +1,9 @@
 import { MetaValueSelection } from "./interfaces";
 
 export class MetaValue {
-    public static readonly FirstOfAll = new MetaValue(selection => selection.firstOfAll);
-    public static readonly FirstInGroup = new MetaValue(selection => selection.firstInGroup);
-    public static readonly Previous = new MetaValue(selection => selection.previous);
+    public static readonly FirstOfAll: MetaValue = new MetaValue(selection => selection.firstOfAll);
+    public static readonly FirstInGroup: MetaValue = new MetaValue(selection => selection.firstInGroup);
+    public static readonly Previous: MetaValue = new MetaValue(selection => selection.previous);
     
     constructor(
         private readonly selector: <T>(selection: MetaValueSelection<T>) => T,

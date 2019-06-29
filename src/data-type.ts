@@ -4,13 +4,6 @@ import { DataMatrixHeader } from './interfaces';
 type ObjPath = string[];
 
 export class DataType<T> {
-    public get size(): number {
-        return this.paths.length;
-    }
-
-    /** template JSON string */
-    private template: string;
-    private paths: ObjPath[];
 
     private static getPaths(header: DataMatrixHeader): ObjPath[] {
         const paths: ObjPath[] = [];
@@ -62,6 +55,15 @@ export class DataType<T> {
 
         return template;
     }
+
+
+    public get size(): number {
+        return this.paths.length;
+    }
+
+    /** template JSON string */
+    private template: string;
+    private paths: ObjPath[];
 
 
     public constructor(header: DataMatrixHeader) {

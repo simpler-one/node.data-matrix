@@ -134,6 +134,5 @@ for (const test of tests) {
 - Be clever and lazy: soon
 - Be stupid and diligent: never
 
-
 ## If you aren't satisfied
  contact: koba.work.work1127@gmail.com
