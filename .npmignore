@@ -1,9 +1,9 @@
-dist/
-# samples/ : necessary
-spec/built/
-# src/ : necessary
-# .gitignore : necessary
-# .travis.yml : necessary
+# dist/ : necessary
+samples/
+spec/
+src/
+.gitignore
+.travis.yml
 
 #---------------
 
