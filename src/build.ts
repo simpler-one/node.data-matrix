@@ -8,12 +8,16 @@ export function buildDataMatrix<T>(header: DataMatrixHeader, ...groups: DataGrou
         console.error('Empty data matrix');
         return [];
     }
-    if (header[0].length !== groups[0][0].length) {
-        console.warn('Header and first data length mismatch');
+
+    const type = new DataType<T>(header);
+    if (type.size !== groups[0][0].length) {
+        console.error(`Header(keys) and first data size mismatch.`
+            + ` key: ${type.size}, data: ${groups[0][0].length}. `
+            + `object-path: [${type.pathsString('.').join(', ')}]`
+        );
         return [];
     }
 
-    const type = new DataType<T>(header);
     const models = fill(groups);
     const result: T[] = [];
     
@@ -40,8 +44,9 @@ function fill(groups: DataGroup[]): DataUnit[] {
 
         let firstInGroup = group[0];
         for (const data of group) {
-            const cur: DataUnit = [...data];
             const short = dataLen - data.length;
+            const cur: DataUnit = [...new Array(short), ...data];
+
             for (let i = 0; i < short; i++) {
                 cur[i] = prev[i]; // Fill empty with prev
             }
@@ -49,7 +54,11 @@ function fill(groups: DataGroup[]): DataUnit[] {
             for (let i = short; i < dataLen; i++) {
                 const val = cur[i];
                 if (val instanceof MetaValue) {
-                    cur[i] = val.select({firstOfAll, firstInGroup, previous: prev }); // Fill meta value
+                    cur[i] = val.select({
+                        firstOfAll: firstOfAll[i],
+                        firstInGroup: firstInGroup[i],
+                        previous: prev[i]
+                    }); // Fill meta value
                 }
             }
 

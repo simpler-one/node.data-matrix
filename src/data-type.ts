@@ -4,6 +4,10 @@ import { DataMatrixHeader } from './interfaces';
 type ObjPath = string[];
 
 export class DataType<T> {
+    public get size(): number {
+        return this.paths.length;
+    }
+
     /** template JSON string */
     private template: string;
     private paths: ObjPath[];
@@ -29,6 +33,11 @@ export class DataType<T> {
             path.push(item);
             this.setPath(header, i, depth + 1, path, paths); // Recursive
         } else {
+            if (item.length === 0) {
+                paths.push(path); // End
+                return;
+            }
+
             for (const key of item) {
                 const newPath = [...path, key];
                 this.setPath(header, i, depth + 1, newPath, paths); // Recursive
@@ -75,5 +84,9 @@ export class DataType<T> {
 
     public getTemplate(): T {
         return JSON.parse(this.template);
+    }
+
+    public pathsString(separator: string): string[] {
+        return this.paths.map(path => path.join(separator));
     }
 }
