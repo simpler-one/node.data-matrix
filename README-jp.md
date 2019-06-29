@@ -85,8 +85,8 @@ for (const test of tests) {
  JavaScriptとTypeScript用のデータリスト作成ツールです
 
 ## 特徴
-- コードを少なく: you don't have to write lengthy code any more for unit test
-- Readable: コードを少なく helps you to understand test cases and find mistake
+- コードを少なく: もうUTのために冗長なコードを書く必要がありません
+- 読みやすい: コードが減るのでテストケースを理解しやすく、間違いも気づきやすくなります
 - でも学習コストがお高いんでしょ？: 基本機能は１ステップ、全機能は４ステップのみで習得できます
 
 ## Quick start
