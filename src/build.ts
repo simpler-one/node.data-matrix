@@ -4,6 +4,15 @@ import { MetaValue } from './meta-value';
 
 
 export function buildDataMatrix<T>(header: DataMatrixHeader, ...groups: DataGroup[]): T[] {
+    if (header.length === 0 || groups.length === 0 || groups[0].length === 0) {
+        console.error('Empty data matrix');
+        return [];
+    }
+    if (header[0].length !== groups[0][0].length) {
+        console.warn('Header and first data length mismatch');
+        return [];
+    }
+
     const type = new DataType<T>(header);
     const models = fill(groups);
     const result: T[] = [];
@@ -21,7 +30,6 @@ export function buildDataMatrix<T>(header: DataMatrixHeader, ...groups: DataGrou
 }
 
 function fill(groups: DataGroup[]): DataUnit[] {
-    if (groups.length === 0 || groups[0].length === 0) return [];
     const result: DataUnit[] = [];
 
     let firstOfAll: DataUnit = groups[0][0];
