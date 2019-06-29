@@ -9,10 +9,10 @@ Let's be lazy.
 <table>
     <tr>
         <th>Write all<br>(Before)</th>
-        <td>
+        <td style="padding: 0">
             <div>
                 Too long and duplicated
-<pre>
+<pre style="margin: 0">
 it('[morning] boy (max): discount 50%', () => {
     const service = new FooService();
     const discount = service.calcDiscount('morning', true, 10);
@@ -35,10 +35,10 @@ it('[morning] senior man (under): no discount', () => {
     </tr>
     <tr>
         <th>List<br>(Before)</th>
-        <td>
+        <td style="padding: 0">
             <div>
                 Still duplicated
-<pre>
+<pre style="margin: 0">
 const tests = [
     { time: 'morning', isMale: true, age: 10, expect: -0.5, label: '[morning] boy ...' },
     { time: 'morning', isMale: true, age: 11, expect: 0.0, label: '[morning] boy ...' },
@@ -54,10 +54,10 @@ for (const test of tests) {
     </tr>
     <tr>
         <th>Data matrix<br>(After)</th>
-        <td>
+        <td style="padding: 0">
             <div>
                 Readable and no duplication
-<pre>
+<pre style="margin: 0">
 const tests = buildDataMatrix([
     [
         ['time',        'isMale',   'age',  'expect',   'label']
