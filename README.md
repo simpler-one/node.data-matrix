@@ -7,6 +7,8 @@
 
 ![DataMatrix](samples/1.quick-start/data-matrix.png)
 
+[日本語](README-jp.md)
+
 Diligent developer, is it your work to crete many lengthy code for unit tests?
 Let's be lazy.
 <table>
