@@ -1,14 +1,16 @@
 import { buildDataMatrix } from "./build";
 import { $0, $00, $$ } from "./meta-value";
 
+const header = [
+    ['val', 'obj'          ],
+    [[],    ['val1','val2']]
+];
+
+
 describe('buildDataMatrix', () => {
     it('should match result', () => {
         // Given
         type Test = { val: string, obj: { val1: number, val2: boolean } };
-        const header = [
-            ['val', 'obj'          ],
-            [[],    ['val1','val2']]
-        ];
         const data = [
             [
                 ['grp1',1,      false],
@@ -41,5 +43,35 @@ describe('buildDataMatrix', () => {
 
         // Then
         expect(tests).toEqual(expected);
+    });
+
+    it('should fail if size mismatch', () => {
+        // Given
+        const data = [
+            [
+                ['grp1',1],
+            ]
+        ];
+
+        // When
+        const result = buildDataMatrix(header, ...data);
+
+        // Then
+        expect(result).toEqual([]);
+    });
+
+    it('should fail if empty', () => {
+        // Given
+        const data = [
+            [
+                ['grp1',1],
+            ]
+        ];
+
+        // When
+        const result = buildDataMatrix([], ...data);
+
+        // Then
+        expect(result).toEqual([]);
     });
 });
