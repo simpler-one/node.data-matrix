@@ -39,10 +39,8 @@ for (const test of tests) {
     it(test.label, () => {
         // Given
         const security = new SecurityChecker('door');
-
         // When
         const can = security.check(test.mode, test.door, test.user);
-
         // Then
         expect(can).toEqual(test.expect);
     });

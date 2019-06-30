@@ -18,3 +18,4 @@ export class MetaValue {
 export const $00: MetaValue = MetaValue.FirstOfAll;
 export const $0: MetaValue = MetaValue.FirstInGroup;
 export const $$: MetaValue = MetaValue.Previous;
+export const _: MetaValue = MetaValue.Previous;

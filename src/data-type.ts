@@ -8,6 +8,7 @@ export class DataType<T> {
     public get size(): number {
         return this.paths.length;
     }
+    public readonly headerColumns: number;
 
     /** template JSON string */
     private template: string;
@@ -15,16 +16,25 @@ export class DataType<T> {
 
 
     public constructor(header: DataMatrixHeader) {
+        this.headerColumns = DataType.getHeaderColumns(header);
         this.paths = DataType.getPaths(header);
         this.template = JSON.stringify(DataType.getTemplate<T>(this.paths));
     }
 
+    private static getHeaderColumns(header: DataMatrixHeader): number {
+        const index = header[0].findIndex(item => item instanceof Array && item.length === 0);
+        return index >= 0 ? index : 0;
+    }
 
     private static getPaths(header: DataMatrixHeader): ObjPath[] {
+        const head: DataMatrixHeader = [
+            header[0].filter(item => !(item instanceof Array && item.length === 0)), // Remove separator
+            ...header.slice(1)
+        ];
         const paths: ObjPath[] = [];
 
-        for (let i = 0; i < header[0].length; i++) {
-            this.setPath(header, i, 0, [], paths);
+        for (let i = 0; i < head[0].length; i++) {
+            this.setPath(head, i, 0, [], paths);
         }
 
         return paths;

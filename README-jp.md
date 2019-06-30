@@ -117,10 +117,8 @@ for (const test of tests) {
     it(test.label, () => {
         // Given
         const service = new FooService();
-
         // When
         const discount = service.calcDiscount(test.time, test.isMale, test.age);
-
         // Then
         expect(discount).toEqual(test.expect);
     });
