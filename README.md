@@ -89,7 +89,7 @@ for (const test of tests) {
 ## Why? 
 - Less code: you don't have to write lengthy code any more for unit test
 - Readable: less code helps you to understand test cases and find mistake
-- Learning cost: basic takes only 1 step, full function takes 4 only steps to learn
+- Learning cost: basic takes only 1 step, full function takes 5 only steps to learn
 
 ## Quick start
 ```js
@@ -132,7 +132,7 @@ for (const test of tests) {
 
 ## Schedule
 - Crate docs: someday
-- Matrix formatting extension for VS Code: someday
+- Extension for VS Code (matrix formatter & header generator): someday
 - Rest: every day
 - Sleep: every day
 - Be clever and lazy: soon
