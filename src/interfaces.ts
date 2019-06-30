@@ -13,7 +13,7 @@ export interface MatrixOptions {
 }
 // tslint:disable-next-line:no-namespace
 export namespace MatrixOptions {
-    // eslint:disable-next-line:no-inner-declarations
+    // eslint-disable-next-line no-inner-declarations
     export function fill(options: MatrixOptions): MatrixOptions {
         return {
             ...options
