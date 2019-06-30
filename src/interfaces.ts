@@ -8,7 +8,7 @@ type DataElement = {};
 
 export type HeaderDataSet = [DataMatrixHeader, ...DataGroup[]];
 
-export abstract class MatrixOptions {
+export interface MatrixOptions {
     reservedForFuture?: undefined;
 }
 // tslint:disable-next-line:no-namespace
