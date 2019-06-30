@@ -11,7 +11,7 @@ const tests = buildDataMatrix<Test>(
         [                   'economy',  10,         80,        '[US-CN] normal 10kg: cost 80'],
         ['JP',      'CN',   'normal',   10,         30,        '[US-CN] normal 10kg: cost 30'],
         // ....
-        // You can easily test error cases by using meta value
+        // You can easily test error cases by using meta value ($0 means first value in group)
         ['',        $0,     $0,         $0,         undefined, '[Error] Empty "from"'],
         [$0,        'Hell', $0,         $0,         undefined, '[Error] Unknown "to"'],
         [$0,        $0,     'teleport', $0,         undefined, '[Error] Unsupported "type"'],

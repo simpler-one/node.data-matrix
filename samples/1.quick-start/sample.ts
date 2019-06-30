@@ -7,13 +7,13 @@ const tests = buildDataMatrix<Test>(
     [
         ['time',        'isMale',   'age',  'expect',   'label'] // Header
     ], [//-------------------------------------------------------
-        // Lacking values will be filled from LEFT to RIGHT
+        // Auto filling will work from LEFT to RIGHT
         ['morning',     true,       10,     -0.5,       '[morning] boy (max): discount 50%'],
         [/*morning*/    /*true*/    11,     0.0,        '[morning] boy (above): no discount'],
-        [                           64,     0.0,        '[morning] senior man (under): no discount'],
+        [/*morning*/    /*true*/    64,     0.0,        '[morning] senior man (under): no discount'],
         [                           65,     -0.5,       '[morning] senior man (min): discount 50%'],
-        [               false,      10,     -0.5,       '[morning] girl (max): discount 50%'],
-        [               /*false*/   11,     0.0,        '[morning] girl (above): no discount'],
+        [/*morning*/    false,      10,     -0.5,       '[morning] girl (max): discount 50%'],
+        [/*morning*/    /*false*/   11,     0.0,        '[morning] girl (above): no discount'],
         [                           64,     0.0,        '[morning] senior woman (under): no discount'],
         [                           65,     -0.5,       '[morning] senior woman (min): discount 50%'],
         ['afternoon',   true,       10,     -0.5,       '[afternoon] boy (max): discount 50%'],
@@ -40,10 +40,8 @@ for (const test of tests) {
     it(test.label, () => {
         // Given
         const service = new FooService();
-
         // When
         const discount = service.calcDiscount(test.time, test.isMale, test.age);
-
         // Then
         expect(discount).toEqual(test.expect);
     });

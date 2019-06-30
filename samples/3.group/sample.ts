@@ -18,7 +18,7 @@ const tests = buildDataMatrix<Test>(
         [$00,       $00,    'teleport', $00,        undefined, '[Error] Unsupported "type"'],
         [$00,       $00,    $00,        -1,         undefined, '[Error] Negative "weight"'],
         [$00,       $00,    $00,        9999,       undefined, '[Error] Over "weight"'],
-    ]
+    ] // $00 means first value of all
 );
 
 for (const test of tests) {

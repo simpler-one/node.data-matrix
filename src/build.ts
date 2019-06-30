@@ -1,24 +1,50 @@
-import { DataMatrixHeader, DataGroup, DataUnit } from './interfaces';
+import { DataMatrixHeader, DataGroup, DataUnit, HeaderDataSet, MatrixOptions } from './interfaces';
 import { DataType } from './data-type';
 import { MetaValue } from './meta-value';
 
+/**
+ * Build data matrix
+ * @param header header
+ * @param groups data groups
+ */
+export function buildDataMatrix<T>(header: DataMatrixHeader, ...groups: DataGroup[]): T[];
+/**
+ * Build data matrix
+ * @param headerAndData header and data array
+ * @param options options
+ */
+export function buildDataMatrix<T>(headerAndData: HeaderDataSet, options?: MatrixOptions): T[];
+export function buildDataMatrix<T>(
+    headerOrSet: DataMatrixHeader | HeaderDataSet,
+    groupOrOpt: DataGroup | MatrixOptions
+): T[] {
+    if (groupOrOpt instanceof Array) {
+        const groups = Array.from(arguments).slice(1);
+        const header = headerOrSet as DataMatrixHeader;
+        return build<T>(header, groups, undefined);
+    } else {
+        const set = headerOrSet as HeaderDataSet;
+        return build<T>(set[0], set.slice(1), groupOrOpt);
+    }
+}
 
-export function buildDataMatrix<T>(header: DataMatrixHeader, ...groups: DataGroup[]): T[] {
+function build<T>(header: DataMatrixHeader, groups: DataGroup[], options: MatrixOptions): T[] {
+    MatrixOptions.fill(options);
     if (header.length === 0 || groups.length === 0 || groups[0].length === 0) {
-        console.error('Empty data matrix');
+        console.error('Matrix header or data is empty');
         return [];
     }
 
     const type = new DataType<T>(header);
     if (type.size !== groups[0][0].length) {
-        console.error(`Header(keys) and first data size mismatch.`
-            + ` key: ${type.size}, data: ${groups[0][0].length}. `
+        console.error(`Header and first data size mismatch.`
+            + ` header: ${type.size}, data: ${groups[0][0].length}. `
             + `object-path: [${type.pathsString('.').join(', ')}]`
         );
         return [];
     }
 
-    const models = fill(groups);
+    const models = fill(groups, type);
     const result: T[] = [];
     
     for (const model of models) {
@@ -33,8 +59,9 @@ export function buildDataMatrix<T>(header: DataMatrixHeader, ...groups: DataGrou
     return result;
 }
 
-function fill(groups: DataGroup[]): DataUnit[] {
+function fill(groups: DataGroup[], type: DataType<{}>): DataUnit[] {
     const result: DataUnit[] = [];
+    const hCol = type.headerColumns;
 
     const firstOfAll: DataUnit = groups[0][0];
     let prev: DataUnit = new Array(firstOfAll.length);
@@ -45,13 +72,14 @@ function fill(groups: DataGroup[]): DataUnit[] {
         const firstInGroup = group[0];
         for (const data of group) {
             const short = dataLen - data.length;
-            const cur: DataUnit = [...new Array(short), ...data];
+            const emptyEnd = hCol + short;
+            const cur: DataUnit = [...data.slice(0, hCol), ...new Array(short), ...data.slice(hCol)];
 
-            for (let i = 0; i < short; i++) {
+            for (let i = hCol; i < emptyEnd; i++) {
                 cur[i] = prev[i]; // Fill empty with prev
             }
 
-            for (let i = short; i < dataLen; i++) {
+            for (let i = emptyEnd; i < dataLen; i++) {
                 const val = cur[i];
                 if (val instanceof MetaValue) {
                     cur[i] = val.select({
