@@ -8,10 +8,9 @@
 
 ![DataMatrix](samples/1.quick-start/data-matrix.png)
 
-[日本語](README-jp.md)
-
-Diligent developer, is it your work to crete many lengthy code for unit tests?
-Let's be lazy.
+日々怠ける処の開発者、日没すれども帰れぬ処の社畜開発者に致す。
+UTのために長くて冗長なコードをたくさん生産することがあなたの仕事ですか？
+怠けましょう
 <table>
     <tr>
         <th>Write all<br>(Before)</th>
@@ -83,13 +82,13 @@ for (const test of tests) {
     </tr>
 </table>
 
-## What? 
- Data list creator for JavaScript and TypeScript.
+## 概要
+ JavaScriptとTypeScript用のデータリスト作成ツールです
 
-## Why? 
-- Less code: you don't have to write lengthy code any more for unit test
-- Readable: less code helps you to understand test cases and find mistake
-- Learning cost: basic takes only 1 step, full function takes 5 only steps to learn
+## 特徴
+- コードを少なく: もうUTのために冗長なコードを書く必要がありません
+- 読みやすい: コードが減るのでテストケースを理解しやすく、間違いも気づきやすくなります
+- でも学習コストがお高いんでしょ？: 基本機能は１ステップ、全機能は５ステップのみで習得できます
 
 ## Quick start
 ```js
@@ -126,17 +125,17 @@ for (const test of tests) {
 }
 ```
 
-## Other samples
- I have a truly marvelous sample of this case which this margin is too narrow to contain.
+## 他のサンプル
+ 真に驚くべきサンプルがあるが、ここに書くには余白が狭すぎる
  [See samples](samples)
 
 ## Schedule
-- Crate docs: someday
-- Extension for VS Code (matrix formatter & header generator): someday
-- Rest: every day
-- Sleep: every day
-- Be clever and lazy: soon
-- Be stupid and diligent: never
+- ドキュメントの充実: 明日やる
+- VS Code向け拡張機能（マトリックス整形、ヘッダ生成）の提供: 明日やる
+- 休憩: 毎日
+- おふとん: 毎日
+- 有能な怠け者になる: もうすぐ
+- 無能な働き者になる: 一昨日
 
-## If you aren't satisfied
+## ご満足いただけなかった場合
  contact: koba.work.work1127@gmail.com
