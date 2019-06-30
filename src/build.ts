@@ -14,7 +14,10 @@ export function buildDataMatrix<T>(header: DataMatrixHeader, ...groups: DataGrou
  * @param options options
  */
 export function buildDataMatrix<T>(headerAndData: HeaderDataSet, options?: MatrixOptions): T[];
-export function buildDataMatrix<T>(headerOrSet: DataMatrixHeader | HeaderDataSet, groupOrOpt: DataGroup | MatrixOptions) {
+export function buildDataMatrix<T>(
+    headerOrSet: DataMatrixHeader | HeaderDataSet,
+    groupOrOpt: DataGroup | MatrixOptions
+): T[] {
     if (groupOrOpt instanceof Array) {
         const groups = Array.from(arguments).slice(1);
         const header = headerOrSet as DataMatrixHeader;
