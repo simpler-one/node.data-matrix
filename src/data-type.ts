@@ -26,7 +26,7 @@ export class DataType<T> {
         return index >= 0 ? index : 0;
     }
 
-    private static getPaths(header: DataMatrixHeader, separatorI: number): ObjPath[] {
+    private static getPaths(header: DataMatrixHeader): ObjPath[] {
         const paths: ObjPath[] = [];
 
         for (let i = 0; i < header[0].length; i++) {
