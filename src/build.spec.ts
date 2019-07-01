@@ -55,7 +55,7 @@ describe('buildDataMatrix', () => {
         type Test = { title: string, obj: { val1: number, val2: boolean } };
         const header = [
             ['title',   [], 'obj'          ],
-            [[],            ['val1','val2']]
+            [[],        [], ['val1','val2']]
         ];
         const data = [[
             ['t1',  1,      false],

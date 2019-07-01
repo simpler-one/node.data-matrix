@@ -1,9 +1,10 @@
 import { buildDataMatrix } from '@working-sloth/data-matrix';
 
-type Test = { label: string, time: string, isMale: boolean; age: number, expect: number };
+type Test = { label: string, time: string, user: { isMale: boolean; age: number }, expect: number };
 const tests = buildDataMatrix<Test>(
-    [                                        // Empty array in top header layer makes left side into header columns
-        ['label',                                   [], 'time',        'isMale',   'age',  'expect']
+    [                                        // Empty arrays from top to bottom in header makes left side into header columns
+        ['label',                                   [], 'time',        'user',             'expect'],
+        [[]                                         [], [],            ['isMale',  'age']          ],
     ], [//---------------------------------------------+-------------------------------------------
         // Header columns                              | normal data columns
         ['[morning] boy (max): discount 50%',           'morning',      true,       10,     -0.5],
@@ -32,7 +33,7 @@ for (const test of tests) {
         // Given
         const service = new FooService();
         // When
-        const discount = service.calcDiscount(test.time, test.isMale, test.age);
+        const discount = service.calcDiscount(test.time, test.user);
         // Then
         expect(discount).toEqual(test.expect);
     });
