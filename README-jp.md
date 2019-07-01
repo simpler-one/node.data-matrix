@@ -138,4 +138,5 @@ for (const test of tests) {
 - 無能な働き者になる: 一昨日
 
 ## ご満足いただけなかった場合
- contact: koba.work.work1127@gmail.com
+- 「question」や「enhancement」などのラベルを付けて[Issueを作成](https://github.com/work-work-komei/node.data-matrix/issues)
+- e-mail: koba.work.work1127@gmail.com
