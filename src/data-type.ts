@@ -27,14 +27,10 @@ export class DataType<T> {
     }
 
     private static getPaths(header: DataMatrixHeader): ObjPath[] {
-        const head: DataMatrixHeader = [
-            header[0].filter(item => !(item instanceof Array && item.length === 0)), // Remove separator
-            ...header.slice(1)
-        ];
         const paths: ObjPath[] = [];
 
-        for (let i = 0; i < head[0].length; i++) {
-            this.setPath(head, i, 0, [], paths);
+        for (let i = 0; i < header[0].length; i++) {
+            this.setPath(header, i, 0, [], paths);
         }
 
         return paths;
@@ -51,7 +47,7 @@ export class DataType<T> {
             path.push(item);
             this.setPath(header, i, depth + 1, path, paths); // Recursive
         } else {
-            if (item.length === 0) {
+            if (item.length === 0 && path.length > 0) { // Terminal & not separator
                 paths.push(path); // End
                 return;
             }
