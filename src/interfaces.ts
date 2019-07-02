@@ -1,12 +1,10 @@
-export interface DataMatrixHeader extends Array<HeaderLayer> { }
-type HeaderLayer = HeaderElement[];
-type HeaderElement = string | string[];
+export type MatrixStringHeader = string[];
 
 export interface DataGroup extends Array<DataUnit> { }
 export interface DataUnit extends Array<DataElement> { }
 type DataElement = {};
 
-export type HeaderDataSet = [DataMatrixHeader, ...DataGroup[]];
+export type HeaderDataSet = [MatrixStringHeader, ...DataGroup[]];
 
 export interface MatrixOptions {
     reservedForFuture?: undefined;

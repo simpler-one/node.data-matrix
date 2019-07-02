@@ -1,4 +1,4 @@
-import { DataMatrixHeader, DataGroup, DataUnit, HeaderDataSet, MatrixOptions } from './interfaces';
+import { MatrixStringHeader, DataGroup, DataUnit, HeaderDataSet, MatrixOptions } from './interfaces';
 import { DataType } from './data-type';
 import { MetaValue } from './meta-value';
 
@@ -7,7 +7,7 @@ import { MetaValue } from './meta-value';
  * @param header header
  * @param groups data groups
  */
-export function buildDataMatrix<T>(header: DataMatrixHeader, ...groups: DataGroup[]): T[];
+export function buildDataMatrix<T>(header: MatrixStringHeader, ...groups: DataGroup[]): T[];
 /**
  * Build data matrix
  * @param headerAndData header and data array
@@ -15,12 +15,12 @@ export function buildDataMatrix<T>(header: DataMatrixHeader, ...groups: DataGrou
  */
 export function buildDataMatrix<T>(headerAndData: HeaderDataSet, options?: MatrixOptions): T[];
 export function buildDataMatrix<T>(
-    headerOrSet: DataMatrixHeader | HeaderDataSet,
+    headerOrSet: MatrixStringHeader | HeaderDataSet,
     groupOrOpt: DataGroup | MatrixOptions
 ): T[] {
     if (groupOrOpt instanceof Array) {
         const groups = Array.from(arguments).slice(1);
-        const header = headerOrSet as DataMatrixHeader;
+        const header = headerOrSet as MatrixStringHeader;
         return build<T>(header, groups, undefined);
     } else {
         const set = headerOrSet as HeaderDataSet;
@@ -28,7 +28,7 @@ export function buildDataMatrix<T>(
     }
 }
 
-function build<T>(header: DataMatrixHeader, groups: DataGroup[], options: MatrixOptions): T[] {
+function build<T>(header: MatrixStringHeader, groups: DataGroup[], options: MatrixOptions): T[] {
     MatrixOptions.fill(options);
     if (header.length === 0 || groups.length === 0 || groups[0].length === 0) {
         console.error('Matrix header or data is empty');

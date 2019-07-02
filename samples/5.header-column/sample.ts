@@ -2,9 +2,9 @@ import { buildDataMatrix } from '@working-sloth/data-matrix';
 
 type Test = { label: string, time: string, user: { isMale: boolean; age: number }, expect: number };
 const tests = buildDataMatrix<Test>(
-    [                                        // Empty arrays from top to bottom in header makes left side into header columns
-        ['label',                                   [], 'time',        'user',             'expect'],
-        [[]                                         [], [],            ['isMale',  'age']          ],
+    [                                        // Vertial line in header makes left side into header columns
+        'label                                         | time           user                expect',
+        '-                                             | -              {isMale     age}          ',
     ], [//---------------------------------------------+-------------------------------------------
         // Header columns                              | normal data columns
         ['[morning] boy (max): discount 50%',           'morning',      true,       10,     -0.5],
