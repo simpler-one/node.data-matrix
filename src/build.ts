@@ -24,7 +24,7 @@ export function buildDataMatrix<T>(
         return build<T>(header, groups, undefined);
     } else {
         const set = headerOrSet as HeaderDataSet;
-        return build<T>(set[0], set.slice(1), groupOrOpt);
+        return build<T>(set[0], set.slice(1) as DataGroup[], groupOrOpt);
     }
 }
 
@@ -39,7 +39,7 @@ function build<T>(header: MatrixStringHeader, groups: DataGroup[], options: Matr
     if (type.size !== groups[0][0].length) {
         console.error(`Header and first data size mismatch.`
             + ` header: ${type.size}, data: ${groups[0][0].length}. `
-            + `object-path: [${type.pathsString('.').join(', ')}]`
+            + `object-path: [${type.pathsString().join(', ')}]`
         );
         return [];
     }
@@ -48,7 +48,7 @@ function build<T>(header: MatrixStringHeader, groups: DataGroup[], options: Matr
     const result: T[] = [];
     
     for (const model of models) {
-        const data = type.getTemplate();
+        const data = type.getModel();
         for (let i = 0; i < model.length; i++) {
             type.set(data, i, model[i]);
         }

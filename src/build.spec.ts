@@ -7,8 +7,8 @@ describe('buildDataMatrix', () => {
         // Given
         type Test = { val: string, obj: { val1: number, val2: boolean } };
         const header = [
-            ['val', 'obj'          ],
-            [[],    ['val1','val2']]
+            'val    obj',
+            '-      {val1    val2}',
         ];
         const data = [[
             ['grp1',1,      false],
@@ -54,14 +54,14 @@ describe('buildDataMatrix', () => {
         // Given
         type Test = { title: string, obj: { val1: number, val2: boolean } };
         const header = [
-            ['title',   [], 'obj'          ],
-            [[],        [], ['val1','val2']]
+            'title  |   obj',
+            '-      |   {val1 val2}',
         ];
         const data = [[
-            ['t1',  1,      false],
+            ['t1',      1,  false],
             ['t2',          true],
             ['t3',          $$],
-            ['t4',  2,      $00],
+            ['t4',      2,  $00],
         ]];
 
         // When
@@ -79,10 +79,10 @@ describe('buildDataMatrix', () => {
     describe('should fail if size mismatch', () => {
         // Given
         const header = [
-            ['mismatch',    'mismatch2', 'mismatch3'],
+            'mismatch   mismatch2   mismatch3',
         ];
         const data = [[
-            ['grp1',        1],
+            ['grp1',    1],
         ]];
 
         it('(overload=header, groups)', () => {

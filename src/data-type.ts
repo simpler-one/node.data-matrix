@@ -1,11 +1,11 @@
 import { MatrixStringHeader } from './interfaces';
 import { Separator } from './separator';
-import { HeaderLayer, MatrixHeader } from './private-interface';
-import { ObjTree } from './object-tree';
+import { HeaderLayer, MatrixHeader, HeaderObject } from './private-interface';
+import { PathNode } from './path-node';
 import { NoChildren } from './meta-header';
 
 
-const IdChar = '[a-zA-Z0-9_\-]';
+const IdChar = '[a-zA-Z0-9_\\-\\|]';
 const BeforeId = new RegExp(`( |^)(?=${IdChar})`, 'g');
 const AfterId = new RegExp(`(?<=${IdChar})( |$)`, 'g');
 
@@ -17,9 +17,9 @@ export class DataType<T> {
     }
     public readonly headerColumns: number;
 
-    /** template JSON string */
-    private template: string;
-    private paths: ObjTree[];
+    /** Model JSON string */
+    private model: string;
+    private paths: PathNode[];
 
 
     public constructor(strHeader: MatrixStringHeader) {
@@ -27,7 +27,7 @@ export class DataType<T> {
         this.headerColumns = DataType.getHeaderColumns(header);
         header = DataType.filter(header);
         this.paths = DataType.getPaths(header);
-        this.template = JSON.stringify(DataType.getTemplate<T>(this.paths));
+        this.model = JSON.stringify(DataType.getModel<T>(this.paths));
     }
 
 
@@ -51,7 +51,7 @@ export class DataType<T> {
         for (const separator of Separator.Closers) {
             result = separator.removeComma(result);
         }
-    
+
         return JSON.parse(result);
     }
 
@@ -64,19 +64,19 @@ export class DataType<T> {
         return header.map(layer => layer.filter(item => item !== '|'));
     }
 
-    private static getPaths(header: MatrixHeader): ObjTree[] {
-        const paths: ObjPath[] = [];
-        const top: ObjTree = new ObjTree('-top-');
+    private static getPaths(header: MatrixHeader): PathNode[] {
+        const paths: PathNode[] = [];
+        const top: PathNode = new PathNode('-top-');
 
-        header[0] = { vals: header[0] as string[] };
+        header[0] = [{ vals: header[0] } as HeaderObject];
         this.setPath(header, 0, top, top, paths);
 
-        return paths.map(top => top.children[0]);
+        return paths.map(topP => topP.children[0]);
     }
 
     private static setPath(
         header: MatrixHeader, depth: number,
-        parent: ObjTree, top: ObjTree, branches: ObjTree[]
+        parent: PathNode, top: PathNode, branches: PathNode[]
     ): void {
         if (depth >= header.length || header[depth].length <= 0) {
             branches.push(top); // End
@@ -88,61 +88,75 @@ export class DataType<T> {
             branches.push(top); // End
             return;
         } else if (typeof item === 'string') {
-            const cur = new ObjTree(item);
+            const cur = new PathNode(item);
             parent.children.push(cur);
             this.setPath(header, depth + 1, cur, top, branches); // Recursive
         } else if (item instanceof Array) {
             for (const key of item) {
-                const cur = new ObjTree(key);
-                parent.children.push(cur);　　
+                const cur = new PathNode(key);
+                parent.children.push(cur);
                 this.setPath(header, depth + 1, cur, cur, parent.children); // Recursive
             }
         } else {
             for (const key of item.vals) {
-                const p = top.clone().descendant();
-                const cur = new ObjTree(key);
+                const t = top.clone();
+                const p = t.descendant();
+                const cur = new PathNode(key);
                 p.children.push(cur);
-                this.setPath(header, depth + 1, cur, top, branches); // Recursive
+                this.setPath(header, depth + 1, cur, t, branches); // Recursive
             }
         }
     }
 
-    private static getTemplate<T>(tree: ObjPath[]): T {
-        const template: T = {} as T; 
-        for (const path of tree) {
-            const pPath: ObjPath = path.slice(0, path.length - 1);
+    private static getModel<T>(paths: PathNode[]): T {
+        const model: T = {} as T; 
+        for (const path of paths) {
+            this.setModel(path, model);
+        }
 
-            let cur: {} = template;
-            for (const key of pPath) {
-                if (cur[key] === undefined) {
-                    cur[key] = {};
+        return model;
+    }
+
+    private static setModel<T>(path: PathNode, model: T): void {
+        if (path.isLeaf) {
+            return;
+        }
+
+        if (model[path.key] === undefined) {
+            model[path.key] = {};
+        }
+
+        model = model[path.key];
+        for (const child of path.children) {
+            this.setModel(child, model);
+        }
+    }
+
+    private static setVal(obj: {}, path: PathNode, val: {}): void {
+        if (path.isLeaf) {
+            obj[path.key] = val; // End
+        } else if (!path.isBranch) {
+            this.setVal(obj[path.key], path.children[0], val); // Recursive
+        } else {
+            if (val instanceof Array) {
+                for (let i = 0; i < val.length; i++) {
+                    this.setVal(obj[path.key], path.children[i], val[i]); // Recursive
                 }
-
-                cur = cur[key];
+            } else {
+                obj[path.key] = val; // End
             }
         }
-
-        return template;
     }
-
 
     public set(obj: T, i: number, value: {}): void {
-        const path = this.paths[i];
-        const pPath: ObjPath = path.slice(0, path.length - 1);
-
-        let cur: {} = obj;
-        for (const key of pPath) {
-            cur = cur[key];
-        }
-
-        cur[path[path.length - 1]] = value;
+        DataType.setVal(obj, this.paths[i], value);
     }
 
-    public getTemplate(): T {
-        return JSON.parse(this.template);
+    public getModel(): T {
+        return JSON.parse(this.model);
     }
 
-    public pathsString(separator: string): string[] {
-        return this.paths.map(path => path.join(separator));
+    public pathsString(): string[] {
+        return this.paths.map(path => path.toString());
     }
 }
