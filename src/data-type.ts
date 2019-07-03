@@ -66,43 +66,42 @@ export class DataType<T> {
 
     private static getPaths(header: MatrixHeader): ObjTree[] {
         const root: ObjTree = new ObjTree('-root-');
-        header[0] = [header[0] as string[]];
-        header.unshift(['-root-']);
+        header[0] = { vals: header[0] as string[] };
 
-        this.setPath(header, 0, 0, root, root, root.children);
+        this.setPath(header, 0, root, root, root.children);
 
         return root.children;
     }
 
     private static setPath(
-        header: MatrixHeader, i: number, depth: number,
+        header: MatrixHeader, depth: number,
         parent: ObjTree, top: ObjTree, root: ObjTree[]
     ): void {
-        if (depth >= header.length || header[depth].length <= i) {
+        if (depth >= header.length || header[depth].length <= 0) {
             root.push(top); // End
             return;
         }
 
-        const item = header[depth][i];
+        const item = header[depth].shift();
         if (item === NoChildren) {
             root.push(top); // End
             return;
         } else if (typeof item === 'string') {
             const cur = new ObjTree(item);
             parent.children.push(cur);
-            this.setPath(header, i, depth + 1, cur, top, root); // Recursive
+            this.setPath(header, depth + 1, cur, top, root); // Recursive
         } else if (item instanceof Array) {
             for (const key of item) {
                 const cur = new ObjTree(key);
                 parent.children.push(cur);
-                this.setPath(header, i, depth + 1, cur, cur, parent.children); // Recursive
+                this.setPath(header, depth + 1, cur, cur, parent.children); // Recursive
             }
         } else {
             for (const key of item.vals) {
                 const p = top.clone().descendant();
                 const cur = new ObjTree(key);
                 p.children.push(cur);
-                this.setPath(header, i, depth + 1, cur, top, root); // Recursive
+                this.setPath(header, depth + 1, cur, top, root); // Recursive
             }
         }
     }
