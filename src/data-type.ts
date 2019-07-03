@@ -65,35 +65,36 @@ export class DataType<T> {
     }
 
     private static getPaths(header: MatrixHeader): ObjTree[] {
-        const root: ObjTree = new ObjTree('-root-');
+        const paths: ObjPath[] = [];
+        const top: ObjTree = new ObjTree('-top-');
+
         header[0] = { vals: header[0] as string[] };
+        this.setPath(header, 0, top, top, paths);
 
-        this.setPath(header, 0, root, root, root.children);
-
-        return root.children;
+        return paths.map(top => top.children[0]);
     }
 
     private static setPath(
         header: MatrixHeader, depth: number,
-        parent: ObjTree, top: ObjTree, root: ObjTree[]
+        parent: ObjTree, top: ObjTree, branches: ObjTree[]
     ): void {
         if (depth >= header.length || header[depth].length <= 0) {
-            root.push(top); // End
+            branches.push(top); // End
             return;
         }
 
         const item = header[depth].shift();
         if (item === NoChildren) {
-            root.push(top); // End
+            branches.push(top); // End
             return;
         } else if (typeof item === 'string') {
             const cur = new ObjTree(item);
             parent.children.push(cur);
-            this.setPath(header, depth + 1, cur, top, root); // Recursive
+            this.setPath(header, depth + 1, cur, top, branches); // Recursive
         } else if (item instanceof Array) {
             for (const key of item) {
                 const cur = new ObjTree(key);
-                parent.children.push(cur);
+                parent.children.push(cur);　　
                 this.setPath(header, depth + 1, cur, cur, parent.children); // Recursive
             }
         } else {
@@ -101,7 +102,7 @@ export class DataType<T> {
                 const p = top.clone().descendant();
                 const cur = new ObjTree(key);
                 p.children.push(cur);
-                this.setPath(header, depth + 1, cur, top, root); // Recursive
+                this.setPath(header, depth + 1, cur, top, branches); // Recursive
             }
         }
     }
