@@ -18,9 +18,3 @@ export namespace MatrixOptions {
         };
     }
 }
-
-export interface MetaValueSelection<T> {
-    firstOfAll: T;
-    firstInGroup: T;
-    previous: T;
-}

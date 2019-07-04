@@ -1,6 +1,6 @@
 import { MatrixStringHeader } from './interfaces';
 import { Separator } from './separator';
-import { HeaderLayer, MatrixHeader, HeaderObject } from './private-interface';
+import { HeaderLayer, MatrixHeader, HeaderObject } from './private-interfaces';
 import { PathNode } from './path-node';
 import { NoChildren } from './meta-header';
 
@@ -154,6 +154,10 @@ export class DataType<T> {
 
     public getModel(): T {
         return JSON.parse(this.model);
+    }
+
+    public getPaths(): PathNode[] {
+        return this.paths.map(path => path.clone());
     }
 
     public pathsString(): string[] {
