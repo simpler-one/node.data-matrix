@@ -1,4 +1,4 @@
-import { buildDataMatrix } from "./build";
+import { buildDataMatrix } from "./builder";
 import { $0, $00, $$ } from "./meta-value";
 
 
