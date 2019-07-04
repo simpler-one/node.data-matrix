@@ -59,7 +59,7 @@ function build<T>(header: MatrixStringHeader, groups: DataGroup[], options: Matr
     return result;
 }
 
-function fill(groups: DataGroup[], type: DataType<{}>): DataUnit[] {
+function fill(groups: DataGroup[], type: DataType<{}>, path: number[]): DataUnit[] {
     const result: DataUnit[] = [];
     const hCol = type.headerColumns;
 
@@ -81,12 +81,15 @@ function fill(groups: DataGroup[], type: DataType<{}>): DataUnit[] {
 
             for (let i = emptyEnd; i < dataLen; i++) {
                 const val = cur[i];
+                const branch = type.pathOf(i).findBranch();
                 if (val instanceof MetaValue) {
                     cur[i] = val.select({
                         firstOfAll: firstOfAll[i],
                         firstInGroup: firstInGroup[i],
                         previous: prev[i]
                     }); // Fill meta value
+                } else if (branch) {
+                    fill
                 }
             }
 
