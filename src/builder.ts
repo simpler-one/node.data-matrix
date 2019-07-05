@@ -74,34 +74,31 @@ class Builder<T> {
 
             this.params.firstInGroup = group[0];
             for (const data of group) {
-                result.push(this.fillOne(data, this.paths, []));
+                result.push(this.fillOne([...data], this.type.headerColumns, this.paths, []));
             }
         }
 
         return result;
     }
 
-    private fillOne(data: DataUnit, paths: PathNode[], path: number[]): DataUnit {
-        const short = this.type.size - data.length;
-        const emptyEnd = this.type.headerColumns + short;
-        const cur: DataUnit = [
-            ...data.slice(0, this.type.headerColumns),
-            ...this.params.previous.slice(this.type.headerColumns, emptyEnd), // Fill with prev
-            ...data.slice(this.type.headerColumns)
-        ];
+    private fillOne(data: DataUnit, hCol: number, pathMap: PathNode[], indexPaths: number[]): DataUnit {
+        const short = pathMap.length - data.length;
+        const emptyEnd = hCol + short;
+        data.splice(hCol, 0, ...this.params.previous.slice(hCol, emptyEnd)) // Fill with prev
 
-        for (let i = emptyEnd; i < this.type.size; i++) {
-            const val = cur[i];
-            const branch = paths[i].findBranch();
+        for (let i = emptyEnd; i < pathMap.length; i++) {
+            const val = data[i];
+            const branch = pathMap[i].findBranch();
+            const idxPath = [...indexPaths, i];
             if (val instanceof MetaValue) {
-                cur[i] = val.eval({...this.params})[i];
+                data[i] = getItem(val.eval({...this.params}), idxPath);
             } else if (branch && val instanceof Array) {
-                this.fillOne(val, branch.children, [...path, i]); // Recursive
+                this.fillOne(val, 0, branch.children, idxPath); // Recursive
             }
         }
 
-        this.params.previous = cur;
-        return cur;
+        this.params.previous = data;
+        return data;
     }
 
     private build(data: DataUnit[]): T[] {
@@ -118,4 +115,14 @@ class Builder<T> {
 
         return results;
     }
+}
+
+
+function getItem(array: DataUnit, indices: number[]): {} {
+    let item: {} = array;
+    for (const index of indices) {
+        item = item[index];
+    }
+
+    return item;
 }

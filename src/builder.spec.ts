@@ -1,38 +1,39 @@
 import { buildDataMatrix } from "./builder";
-import { $0, $00, $$ } from "./meta-value";
+import { $0, $00, $$, _ } from "./meta-value";
 
 
 describe('buildDataMatrix', () => {
     describe('should match result without header columns', () => {
         // Given
-        type Test = { val: string, obj: { val1: number, val2: boolean } };
+        type Test = { val: string, obj: { a: { a: number, b: number }, b: { a: number, b: number } } };
         const header = [
             'val    obj',
-            '-      {val1    val2}',
+            '-      {a      b}',
+            '       {a  b}  [a      b]',
         ];
         const data = [[
-            ['grp1',1,      false],
-            [               true],
-            [       2,      $$],
-            [       $0,     $00],
-        ], [
-            ['grp2',1,      true],
-            [               false],
-            [$00,   2,      $$],
-            [$$,    $0,     $0],
-            [$0,    $0,     $00],
+            ['grp1',1,  -1, [10,    -10]],
+            [           -2, [20,    -20]],
+            [       2,  _,  [_,     $0]],
+        //     [       $0, $00,39, -30],
+        // ], [
+        //     ['grp2',1,      true],
+        //     [               false],
+        //     [$00,   2,      $$],
+        //     [$$,    $0,     $0],
+        //     [$0,    $0,     $00],
         ]];
         const expected: Test[] = [
-            { val: 'grp1', obj: { val1: 1, val2: false } },
-            { val: 'grp1', obj: { val1: 1, val2: true } },
-            { val: 'grp1', obj: { val1: 2, val2: true } },
-            { val: 'grp1', obj: { val1: 1, val2: false } },
+            { val: 'grp1', obj: { a: { a: 1, b: -1 }, b: { a: 10, b: -10 } } },
+            { val: 'grp1', obj: { a: { a: 1, b: -2 }, b: { a: 20, b: -20 } } },
+            { val: 'grp1', obj: { a: { a: 2, b: -2 }, b: { a: 20, b: -10 } } },
+            // { val: 'grp1', obj: { a: 1, b: false } },
 
-            { val: 'grp2', obj: { val1: 1, val2: true } },
-            { val: 'grp2', obj: { val1: 1, val2: false } },
-            { val: 'grp1', obj: { val1: 2, val2: false } },
-            { val: 'grp1', obj: { val1: 1, val2: true } },
-            { val: 'grp2', obj: { val1: 1, val2: false } },
+            // { val: 'grp2', obj: { a: 1, b: true } },
+            // { val: 'grp2', obj: { a: 1, b: false } },
+            // { val: 'grp1', obj: { a: 2, b: false } },
+            // { val: 'grp1', obj: { a: 1, b: true } },
+            // { val: 'grp2', obj: { a: 1, b: false } },
         ];
 
         it('(overload=header, groups)', () => {

@@ -92,9 +92,9 @@ export class DataType<T> {
             parent.children.push(cur);
             this.setPath(header, depth + 1, cur, top, branches); // Recursive
         } else if (item instanceof Array) {
+            branches.push(top);
             for (const key of item) {
                 const cur = new PathNode(key);
-                parent.children.push(cur);
                 this.setPath(header, depth + 1, cur, cur, parent.children); // Recursive
             }
         } else {
