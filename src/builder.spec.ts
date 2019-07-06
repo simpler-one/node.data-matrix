@@ -153,7 +153,7 @@ describe('buildDataMatrix', () => {
         ]);
     });
 
-    describe('should fail if size mismatch', () => {
+    describe('should fail if first size mismatch', () => {
         // Given
         const header = [
             'mismatch   mismatch2   mismatch3',
@@ -176,6 +176,35 @@ describe('buildDataMatrix', () => {
     
             // Then
             expect(result).toEqual([]);
+        });
+    });
+
+    describe('should fail if second data size is larger', () => {
+        // Given
+        const header = [
+            'larger1    larger2',
+        ];
+        const data = [[
+            ['grp1',    1],
+            ['grp1',    1, 2, 3, 4],
+        ]];
+        const expected = [
+            {larger1: 'grp1', larger2: 1},
+            {},
+        ];
+
+        it('(overload=header, groups)', () => {
+            // When
+            const result = buildDataMatrix(header, ...data);
+            // Then
+            expect(result).toEqual(expected);
+        });
+
+        it('(overload=[header, groups], options)', () => {
+            // When
+            const result = buildDataMatrix([header, ...data], undefined);
+            // Then
+            expect(result).toEqual(expected);
         });
     });
 
