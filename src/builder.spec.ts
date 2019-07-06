@@ -3,7 +3,89 @@ import { $0, $00, $$, _ } from "./meta-value";
 
 
 describe('buildDataMatrix', () => {
-    describe('should match result without header columns', () => {
+    describe('should match (open-nest, group, meta)', () => {
+        // Given
+        type Test = { val: string, obj: { a: { a: number, b: number }, b: { a: number, b: number } } };
+        const header = [
+            'val    obj',
+            '-      {a      b}',
+            '       {a  b}  {a      b}',
+        ];
+        const data = [[
+            ['grp1',1,  -1, 10,     -10],
+            [           -2, 20,     -20],
+            [       2,  _,  _,      $0],
+        ], [
+            ['grp2',3,  -3, 50,     -40],
+            [       $0, $00,39,     -30],
+        ]];
+        const expected: Test[] = [
+            { val: 'grp1', obj: { a: { a: 1, b: -1 }, b: { a: 10, b: -10 } } },
+            { val: 'grp1', obj: { a: { a: 1, b: -2 }, b: { a: 20, b: -20 } } },
+            { val: 'grp1', obj: { a: { a: 2, b: -2 }, b: { a: 20, b: -10 } } },
+
+            { val: 'grp2', obj: { a: { a: 3, b: -3 }, b: { a: 50, b: -40 } } },
+            { val: 'grp2', obj: { a: { a: 3, b: -1 }, b: { a: 39, b: -30 } } },
+        ];
+
+        it('(overload=header, groups)', () => {
+            // When
+            const tests = buildDataMatrix<Test>(header, ...data);
+            // Then
+            expect(tests).toEqual(expected);
+        });
+    
+        it('(overload=[header, groups], options)', () => {
+            // When
+            const tests = buildDataMatrix<Test>([header, ...data], undefined);
+            // Then
+            expect(tests).toEqual(expected);
+        });
+    });
+
+    describe('should match (block-nest, group, meta)', () => {
+        // Given
+        type Test = { val: string, obj: { a: { a: number, b: number }, b: { a: number, b: number } } };
+        const header = [
+            'val    obj',
+            '-      [a              b]',
+            '       [a      b]      [a      b]',
+        ];
+        const data = [[
+            ['grp1',[[1,    -1],    [10,    -10]]],
+            [       [[      -2],    [20,    -20]]],
+            [       [[2,    _],     [_,     $0]]],
+            [       [[$0,   $00],   [39,    -30]]],
+        ], [
+            ['grp2',[[3,    -3],    undefined]],
+            [       $0,             $00],
+        ]];
+        const expected: Test[] = [
+            { val: 'grp1', obj: { a: { a: 1, b: -1 }, b: { a: 10, b: -10 } } },
+            { val: 'grp1', obj: { a: { a: 1, b: -2 }, b: { a: 20, b: -20 } } },
+            { val: 'grp1', obj: { a: { a: 2, b: -2 }, b: { a: 20, b: -10 } } },
+            { val: 'grp1', obj: { a: { a: 1, b: -1 }, b: { a: 39, b: -30 } } },
+
+            { val: 'grp2', obj: { a: { a: 3, b: -3 }, b: undefined } },
+            { val: 'grp2', obj: { a: { a: 3, b: -3 }, b: { a: 10, b: -10 } } },
+        ];
+
+        it('(overload=header, groups)', () => {
+            // When
+            const tests = buildDataMatrix<Test>(header, ...data);
+            // Then
+            expect(tests).toEqual(expected);
+        });
+    
+        it('(overload=[header, groups], options)', () => {
+            // When
+            const tests = buildDataMatrix<Test>([header, ...data], undefined);
+            // Then
+            expect(tests).toEqual(expected);
+        });
+    });
+
+    describe('should match (open-nest & block-nest, group, meta)', () => {
         // Given
         type Test = { val: string, obj: { a: { a: number, b: number }, b: { a: number, b: number } } };
         const header = [
@@ -15,25 +97,19 @@ describe('buildDataMatrix', () => {
             ['grp1',1,  -1, [10,    -10]],
             [           -2, [20,    -20]],
             [       2,  _,  [_,     $0]],
-        //     [       $0, $00,39, -30],
-        // ], [
-        //     ['grp2',1,      true],
-        //     [               false],
-        //     [$00,   2,      $$],
-        //     [$$,    $0,     $0],
-        //     [$0,    $0,     $00],
+            [       $0, $00,[39,     -30]],
+        ], [
+            ['grp2',3,  -3, undefined],
+            [           $0, $00],
         ]];
         const expected: Test[] = [
             { val: 'grp1', obj: { a: { a: 1, b: -1 }, b: { a: 10, b: -10 } } },
             { val: 'grp1', obj: { a: { a: 1, b: -2 }, b: { a: 20, b: -20 } } },
             { val: 'grp1', obj: { a: { a: 2, b: -2 }, b: { a: 20, b: -10 } } },
-            // { val: 'grp1', obj: { a: 1, b: false } },
+            { val: 'grp1', obj: { a: { a: 1, b: -1 }, b: { a: 39, b: -30 } } },
 
-            // { val: 'grp2', obj: { a: 1, b: true } },
-            // { val: 'grp2', obj: { a: 1, b: false } },
-            // { val: 'grp1', obj: { a: 2, b: false } },
-            // { val: 'grp1', obj: { a: 1, b: true } },
-            // { val: 'grp2', obj: { a: 1, b: false } },
+            { val: 'grp2', obj: { a: { a: 3, b: -3 }, b: undefined } },
+            { val: 'grp2', obj: { a: { a: 3, b: -3 }, b: { a: 10, b: -10 } } },
         ];
 
         it('(overload=header, groups)', () => {
