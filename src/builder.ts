@@ -45,7 +45,7 @@ class Builder<T> {
 
     public static build<T>(header: MatrixStringHeader, groups: DataGroup[], options: MatrixOptions): T[] {
         MatrixOptions.fill(options);
-        if (header.length === 0 || groups.length === 0 || groups[0].length === 0) {
+        if (!header || !groups || header.length === 0 || groups.length === 0 || groups[0].length === 0) {
             console.error('Matrix header or data is empty');
             return [];
         }
