@@ -65,11 +65,11 @@ for (const test of tests) {
 <pre style="margin: 0">
 const tests = buildDataMatrix([
     [
-        ['time',        'isMale',   'age',  'expect',   'label']
+        'time           isMale      age     expect  label', // Header
     ], [//-------------------------------------------------------
-        ['morning',     true,       10,     -0.5,       '[morning] boy ...'],
-        [                           11,     0.0,        '[morning] boy ...'],
-        [                           64,     0.0,        '[morning] senior ...'],
+        ['morning',     true,       10,     -0.5,   '[morning] boy ...'],
+        [                           11,     0.0,    '[morning] boy ...'],
+        [                           64,     0.0,    '[morning] senior ...'],
     ...
     ]
 ])
@@ -99,15 +99,15 @@ type Test = { time: string, isMale: boolean; age: number, expect: number, label:
 // buildDataMatrix<T> convert the matrix to test list
 const tests = buildDataMatrix<Test>(
     [
-        ['time',        'isMale',   'age',  'expect',   'label'] // Header
+        'time           isMale      age     expect  label', // Header
     ], [//-------------------------------------------------------
         // Lacking values will be filled from LEFT to RIGHT with previous value
-        ['morning',     true,       10,     -0.5,       '[morning] boy (max): discount 50%'],
-        [/*morning*/    /*true*/    11,     0.0,        '[morning] boy (above): no discount'],
-        [                           64,     0.0,        '[morning] senior man (under): no discount'],
-        [                           65,     -0.5,       '[morning] senior man (min): discount 50%'],
-        [               false,      10,     -0.5,       '[morning] girl (max): discount 50%'],
-        [               /*false*/   11,     0.0,        '[morning] girl (above): no discount'],
+        ['morning',     true,       10,     -0.5,   '[morning] boy (max): discount 50%'],
+        [/*morning*/    /*true*/    11,     0.0,    '[morning] boy (above): no discount'],
+        [                           64,     0.0,    '[morning] senior man (under): no discount'],
+        [                           65,     -0.5,   '[morning] senior man (min): discount 50%'],
+        [               false,      10,     -0.5,   '[morning] girl (max): discount 50%'],
+        [               /*false*/   11,     0.0,    '[morning] girl (above): no discount'],
         ...
     ]
 );
