@@ -3,7 +3,7 @@ import { buildDataMatrix, $0, $00 } from '@working-sloth/data-matrix';
 type Test = { from: string, to: string; type: string, weight: number, expect: number, label: string };
 const tests = buildDataMatrix<Test>(
     [
-        ['from  to      type        weight  expect  label']
+        'from  to      type        weight  expect  label',
     ], [//--- US group -----------------------------------------------------------
         ['US',  'CN',   'normal',   10,     100,    '[US-CN] normal 10kg: cost 100'],
         [               'fast',     10,     150,    '[US-CN] normal 10kg: cost 150'],
