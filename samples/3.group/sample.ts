@@ -3,21 +3,21 @@ import { buildDataMatrix, $0, $00 } from '@working-sloth/data-matrix';
 type Test = { from: string, to: string; type: string, weight: number, expect: number, label: string };
 const tests = buildDataMatrix<Test>(
     [
-        ['from',    'to',   'type',     'weight',   'expect',   'label']
+        'from  to      type        weight  expect  label',
     ], [//--- US group -----------------------------------------------------------
-        ['US',      'CN',   'normal',   10,         100,       '[US-CN] normal 10kg: cost 100'],
-        [                   'fast',     10,         150,       '[US-CN] normal 10kg: cost 150'],
-        [                   'economy',  10,         80,        '[US-CN] normal 10kg: cost 80'],
+        ['US',  'CN',   'normal',   10,     100,    '[US-CN] normal 10kg: cost 100'],
+        [               'fast',     10,     150,    '[US-CN] normal 10kg: cost 150'],
+        [               'economy',  10,     80,     '[US-CN] normal 10kg: cost 80'],
         //...
     ], [//--- JP Group -----------------------------------------------------------
-        ['JP',      'CN',   'normal',   10,         30,        '[US-CN] normal 10kg: cost 30'],
+        ['JP',  'CN',   'normal',   10,     30,     '[US-CN] normal 10kg: cost 30'],
         //...
     ], [//--- Error Group -----------------------------------------------------------
-        ['',        $00,    $00,        $00,        undefined, '[Error] Empty "from"'],
-        [$00,       'Hell', $00,        $00,        undefined, '[Error] Unknown "to"'],
-        [$00,       $00,    'teleport', $00,        undefined, '[Error] Unsupported "type"'],
-        [$00,       $00,    $00,        -1,         undefined, '[Error] Negative "weight"'],
-        [$00,       $00,    $00,        9999,       undefined, '[Error] Over "weight"'],
+        ['',    $00,    $00,        $00,    null,   '[Error] Empty "from"'],
+        [$00,   'Hell', $00,        $00,    null,   '[Error] Unknown "to"'],
+        [$00,   $00,    'teleport', $00,    null,   '[Error] Unsupported "type"'],
+        [$00,   $00,    $00,        -1,     null,   '[Error] Negative "weight"'],
+        [$00,   $00,    $00,        9999,   null,   '[Error] Over "weight"'],
     ] // $00 means first value of all
 );
 

@@ -1,17 +1,18 @@
-import { MetaValueSelection } from "./interfaces";
+import { MetaValueParams } from "./private-interfaces";
+import { DataUnit } from "./interfaces";
 
 export class MetaValue {
-    public static readonly FirstOfAll: MetaValue = new MetaValue(selection => selection.firstOfAll);
-    public static readonly FirstInGroup: MetaValue = new MetaValue(selection => selection.firstInGroup);
-    public static readonly Previous: MetaValue = new MetaValue(selection => selection.previous);
+    public static readonly FirstOfAll: MetaValue = new MetaValue(params => params.firstOfAll);
+    public static readonly FirstInGroup: MetaValue = new MetaValue(params => params.firstInGroup);
+    public static readonly Previous: MetaValue = new MetaValue(params => params.previous);
     
     constructor(
-        private readonly selector: <T>(selection: MetaValueSelection<T>) => T,
+        private readonly selector: (selection: MetaValueParams) => DataUnit,
     ) {
     }
 
-    public select<T>(selection: MetaValueSelection<T>): T {
-        return this.selector(selection);
+    public eval(params: MetaValueParams): DataUnit {
+        return this.selector(params);
     }
 }
 
