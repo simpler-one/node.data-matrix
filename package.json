@@ -1,9 +1,10 @@
 {
   "name": "@working-sloth/data-matrix",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "Data matrix for NodeJS",
   "main": "dist/index.js",
   "scripts": {
+    "prepublishOnly": "npm run build",
     "build": "rimraf dist && tsc -p src",
     "test": "rimraf spec/built && tsc -p spec && istanbul cover node_modules/jasmine/bin/jasmine.js",
     "remapcov": "cat coverage/coverage.json | ./node_modules/.bin/remap-istanbul > coverage/coverage-remap.json && mv -f coverage/coverage-remap.json coverage/coverage.json",
