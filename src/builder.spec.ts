@@ -58,7 +58,7 @@ describe('buildDataMatrix', () => {
             [       [[$0,   $00],   [39,    -30]]],
         ], [
             ['grp2',[[3,    -3],    undefined]],
-            [       $0,             $00],
+            [       [$0,            $00]],
         ]];
         const expected: Test[] = [
             { val: 'grp1', obj: { a: { a: 1, b: -1 }, b: { a: 10, b: -10 } } },

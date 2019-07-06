@@ -2,7 +2,7 @@ export type MatrixStringHeader = string[];
 
 export interface DataGroup extends Array<DataUnit> { }
 export interface DataUnit extends Array<DataElement> { }
-type DataElement = {};
+export type DataElement = {} | DataUnit;
 
 export type HeaderDataSet = [MatrixStringHeader, ...DataGroup[]];
 

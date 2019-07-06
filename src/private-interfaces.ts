@@ -13,5 +13,5 @@ export interface HeaderWholeObject extends Array<string> { }
 export interface MetaValueParams {
     firstOfAll: DataUnit;
     firstInGroup: DataUnit;
-    previous?: DataUnit;
+    previous: DataUnit;
 }

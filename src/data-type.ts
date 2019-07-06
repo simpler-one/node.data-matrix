@@ -1,4 +1,4 @@
-import { MatrixStringHeader } from './interfaces';
+import { MatrixStringHeader, DataUnit } from './interfaces';
 import { Separator } from './separator';
 import { HeaderLayer, MatrixHeader, HeaderObject } from './private-interfaces';
 import { PathNode } from './path-node';
@@ -148,12 +148,28 @@ export class DataType<T> {
         }
     }
 
+    private static getEmptyData(branches: PathNode[]): DataUnit {
+        const data = new Array(branches.length);
+        for (let i = 0; i < branches.length; i++) {
+            const branch = branches[i].findBranch();
+            if (branch) {
+                data[i] = this.getEmptyData(branch.children); // Recursive
+            }
+        }
+
+        return data;
+    }
+
     public set(obj: T, i: number, value: {}): void {
         DataType.setVal(obj, this.paths[i], value);
     }
 
     public getModel(): T {
         return JSON.parse(this.model);
+    }
+
+    public getEmptyData(): DataUnit {
+        return DataType.getEmptyData(this.paths);
     }
 
     public getPaths(): PathNode[] {

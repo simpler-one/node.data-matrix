@@ -1,4 +1,4 @@
-import { MatrixStringHeader, DataGroup, DataUnit, HeaderDataSet, MatrixOptions } from './interfaces';
+import { MatrixStringHeader, DataGroup, DataUnit, HeaderDataSet, MatrixOptions, DataElement } from './interfaces';
 import { MetaValueParams } from './private-interfaces';
 import { DataType } from './data-type';
 import { MetaValue } from './meta-value';
@@ -32,7 +32,7 @@ export function buildDataMatrix<T>(
 
 class Builder<T> {
 
-    private readonly params: MetaValueParams = { firstOfAll: undefined, firstInGroup: undefined };
+    private readonly params: MetaValueParams = { } as MetaValueParams;
 
     private readonly paths: PathNode[];
 
@@ -68,37 +68,48 @@ class Builder<T> {
         const result: DataUnit[] = [];
 
         this.params.firstOfAll = groups[0][0];
-        this.params.previous = new Array(this.type.size);
+        this.params.previous = this.type.getEmptyData();
         for (const group of groups) {
             if (group.length === 0) continue;
 
             this.params.firstInGroup = group[0];
             for (const data of group) {
-                result.push(this.fillOne([...data], this.type.headerColumns, this.paths, []));
+                const filled = this.fillOne(data, this.type.headerColumns, this.paths, []);
+                this.params.previous = filled;
+                result.push(filled);
             }
         }
 
         return result;
     }
 
-    private fillOne(data: DataUnit, hCol: number, pathMap: PathNode[], indexPaths: number[]): DataUnit {
+    private fillOne(data: DataUnit, hCol: number, pathMap: PathNode[], indexPath: number[]): DataUnit {
+        if (pathMap.length < data.length) {
+            console.warn('data is longer than header');
+            return [];
+        }
+
         const short = pathMap.length - data.length;
         const emptyEnd = hCol + short;
-        data.splice(hCol, 0, ...this.params.previous.slice(hCol, emptyEnd)) // Fill with prev
+        const prev = getItem(this.params.previous, indexPath) as DataUnit;
+        const cur = [
+            ...data.slice(0, hCol),
+            ...prev.slice(hCol, emptyEnd), // Fill with prev
+            ...data.slice(hCol),
+        ];
 
         for (let i = emptyEnd; i < pathMap.length; i++) {
-            const val = data[i];
+            const val = cur[i];
             const branch = pathMap[i].findBranch();
-            const idxPath = [...indexPaths, i];
+            const idxPath = [...indexPath, i];
             if (val instanceof MetaValue) {
-                data[i] = getItem(val.eval({...this.params}), idxPath);
+                cur[i] = getItem(val.eval({...this.params}), idxPath);
             } else if (branch && val instanceof Array) {
-                this.fillOne(val, 0, branch.children, idxPath); // Recursive
+                cur[i] = this.fillOne(val, 0, branch.children, idxPath); // Recursive
             }
         }
 
-        this.params.previous = data;
-        return data;
+        return cur;
     }
 
     private build(data: DataUnit[]): T[] {
@@ -118,8 +129,8 @@ class Builder<T> {
 }
 
 
-function getItem(array: DataUnit, indices: number[]): {} {
-    let item: {} = array;
+function getItem(array: DataUnit, indices: number[]): DataElement {
+    let item: DataElement = array;
     for (const index of indices) {
         item = item[index];
     }
