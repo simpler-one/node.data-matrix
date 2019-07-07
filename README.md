@@ -1,11 +1,4 @@
-<style>
-@import url('https://fonts.googleapis.com/css?family=Source+Code+Pro&display=swap');
-
-pre {
-    font-size: 10pt;
-    font-family: 'Source Code Pro', monospace
-}
-</style>
+<style>@import url('https://fonts.googleapis.com/css?family=Source+Code+Pro&display=swap'); pre.code {    font-size: 10pt; font-family: 'Source Code Pro', monospace; }</style>
 
 # Data Matrix
 
@@ -27,7 +20,7 @@ Let's be lazy.
         <td>
             <div>
                 Too long and duplicated
-<pre>
+<pre class="code">
 it('[morning] boy (max): discount 50%', () => {
     const service = new FooService();
     const discount = service.calcDiscount('morning', true, 10);
@@ -53,7 +46,7 @@ it('[morning] senior man (under): no discount', () => {
         <td>
             <div>
                 Still duplicated
-<pre>
+<pre class="code">
 const tests = [
     { time: 'morning', isMale: true, age: 10, expect: -0.5, label: '[morning] boy ...' },
     { time: 'morning', isMale: true, age: 11, expect: 0.0, label: '[morning] boy ...' },
@@ -72,7 +65,7 @@ for (const test of tests) {
         <td>
             <div>
                 Readable and no duplication
-<pre>
+<pre class="code">
 const tests = buildDataMatrix([
     [
         'time           isMale      age     expect  label', // Header
