@@ -1,5 +1,3 @@
-<style>@import url('https://fonts.googleapis.com/css?family=Source+Code+Pro&display=swap'); pre.code {    font-size: 10pt; font-family: 'Source Code Pro', monospace; }</style>
-
 # Data Matrix
 
 [![npm version](https://badge.fury.io/js/%40working-sloth%2Fdata-matrix.svg)](https://badge.fury.io/js/%40working-sloth%2Fdata-matrix)
