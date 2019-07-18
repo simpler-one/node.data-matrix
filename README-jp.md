@@ -14,10 +14,10 @@ UTのために長くて冗長なコードをたくさん生産することがあ
 <table>
     <tr>
         <th>Write all<br>(Before)</th>
-        <td style="padding: 0">
+        <td>
             <div>
                 Too long and duplicated
-<pre style="margin: 0">
+<pre>
 it('[morning] boy (max): discount 50%', () => {
     const service = new FooService();
     const discount = service.calcDiscount('morning', true, 10);
@@ -40,10 +40,10 @@ it('[morning] senior man (under): no discount', () => {
     </tr>
     <tr>
         <th>List<br>(Before)</th>
-        <td style="padding: 0">
+        <td>
             <div>
                 Still duplicated
-<pre style="margin: 0">
+<pre>
 const tests = [
     { time: 'morning', isMale: true, age: 10, expect: -0.5, label: '[morning] boy ...' },
     { time: 'morning', isMale: true, age: 11, expect: 0.0, label: '[morning] boy ...' },
@@ -59,10 +59,10 @@ for (const test of tests) {
     </tr>
     <tr>
         <th>Data matrix<br>(After)</th>
-        <td style="padding: 0">
+        <td>
             <div>
                 Readable and no duplication
-<pre style="margin: 0">
+<pre>
 const tests = buildDataMatrix([
     [
         'time           isMale      age     expect  label', // Header

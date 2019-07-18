@@ -3,6 +3,7 @@
   "version": "2.0.0",
   "description": "Data matrix for NodeJS",
   "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "scripts": {
     "prepublishOnly": "npm run build",
     "build": "rimraf dist && tsc -p src",
